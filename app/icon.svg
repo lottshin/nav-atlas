@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="众所周知">
+  <!--
+    Small-size optimized knowledge seal:
+    solid black outer seal + white inner field + document mark + vermilion proof dot.
+  -->
+  <circle cx="32" cy="32" r="30" fill="#0d0d0d" />
+  <circle cx="32" cy="32" r="24.5" fill="#ffffff" />
+
+  <g transform="rotate(-6 32 32)">
+    <path
+      d="M20.5 14.2 H39.5 L47 22.2 V43.5
+         A5 5 0 0 1 42 48.5
+         H20.5
+         A5 5 0 0 1 15.5 43.5
+         V19.2
+         A5 5 0 0 1 20.5 14.2 Z"
+      fill="#0d0d0d"
+    />
+
+    <path d="M39.5 14.2 V21.4 A1.9 1.9 0 0 0 41.4 23.3 H47" fill="#ffffff" />
+    <path d="M39.5 14.2 V21.4 A1.9 1.9 0 0 0 41.4 23.3 H47" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linejoin="round" />
+  </g>
+
+  <circle cx="23.5" cy="42.5" r="6.2" fill="#96392d" stroke="#ffffff" stroke-width="1.8" />
+</svg>

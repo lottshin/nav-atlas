@@ -1,0 +1,189 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          String @id @default(cuid())
+  name        String
+  slug        String @unique
+  description String
+  icon        String @default("grid")
+  sortOrder   Int    @default(0)
+  links       Link[]
+}
+
+model Link {
+  id               String             @id @default(cuid())
+  title            String
+  url              String
+  description      String
+  icon             String
+  iconMode         String             @default("auto")
+  iconUrl          String?
+  faviconUrl       String?
+  displayChipPrimary String?
+  displayChipSecondary String?
+  normalizedDomain String             @default("")
+  status           String             @default("unknown")
+  lastCheckedAt    DateTime?
+  httpStatus       Int?
+  faviconStatus    String             @default("idle")
+  titleStatus      String             @default("idle")
+  featured         Boolean            @default(false)
+  sortOrder        Int                @default(0)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  categoryId       String
+  category         Category           @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  checks           LinkCheck[]
+  metadata         LinkMetadata?
+  searchDocument   LinkSearchDocument?
+  tags             LinkTag[]
+  collections      CollectionLink[]
+}
+
+model Tag {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  links       LinkTag[]
+}
+
+model Collection {
+  id          String          @id @default(cuid())
+  name        String
+  slug        String          @unique
+  description String
+  published   Boolean         @default(false)
+  sortOrder   Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  links       CollectionLink[]
+}
+
+model SavedView {
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  description    String
+  published      Boolean  @default(false)
+  sortOrder      Int      @default(0)
+  queryStateJson Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model LinkTag {
+  linkId    String
+  tagId     String
+  createdAt DateTime @default(now())
+  link      Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([linkId, tagId])
+  @@index([tagId])
+}
+
+model CollectionLink {
+  collectionId String
+  linkId       String
+  sortOrder    Int         @default(0)
+  createdAt    DateTime    @default(now())
+  collection   Collection  @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  link         Link        @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  @@id([collectionId, linkId])
+  @@index([linkId])
+}
+
+model LinkMetadata {
+  linkId              String   @id
+  resolvedTitle       String?
+  resolvedDescription String?
+  siteName            String?
+  canonicalUrl        String?
+  faviconUrl          String?
+  ogImageUrl          String?
+  lastFetchedAt       DateTime?
+  fetchStatus         String   @default("idle")
+  lastError           String?
+  link                Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+}
+
+model LinkSearchDocument {
+  linkId       String   @id
+  titleText    String
+  taxonomyText String
+  metadataText String
+  documentText String
+  updatedAt    DateTime @updatedAt
+  link         Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+}
+
+model Job {
+  id           String   @id @default(cuid())
+  type         String
+  status       String   @default("queued")
+  payload      Json
+  priority     Int      @default(0)
+  attemptCount Int      @default(0)
+  maxAttempts  Int      @default(3)
+  availableAt  DateTime @default(now())
+  startedAt    DateTime?
+  finishedAt   DateTime?
+  lastError    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([status, availableAt, priority, createdAt])
+}
+
+model SiteSettings {
+  id                     String @id
+  siteName               String
+  brandMark              String @default("NAV/ATLAS")
+  brandSub               String @default("system online")
+  homeRailLabel          String @default("Home")
+  homeRailIcon           String @default("compass")
+  heroEyebrow            String @default("curated website directory")
+  heroTitle              String
+  heroSubtitle           String
+  secondaryEntrySource   String @default("hitokoto")
+  secondaryEntryFallback String @default("Use tags, collections, and saved views when you want curated shortcuts instead of the full category index.")
+  featuredSectionKicker  String @default("\u63a8\u8350")
+  featuredSectionTitle   String @default("\u9996\u9875\u63a8\u8350\u7ad9\u70b9")
+  featuredSectionNote    String @default("\u4ece\u5de6\u4fa7\u5207\u6362\u5206\u7c7b\uff0c\u53ef\u4ee5\u67e5\u770b\u5bf9\u5e94\u5206\u7c7b\u4e0b\u7684\u5b8c\u6574\u7f51\u7ad9\u5217\u8868\u3002")
+  accentColor            String
+  defaultTheme           String
+  adminBranding          String
+}
+
+model LinkCheck {
+  id            String   @id @default(cuid())
+  linkId        String
+  checkedAt     DateTime @default(now())
+  httpStatus    Int?
+  faviconStatus String   @default("idle")
+  titleStatus   String   @default("idle")
+  note          String?
+  link          Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+}
+
+model ImportBatch {
+  id            String   @id @default(cuid())
+  sourceType    String
+  filename      String?
+  itemCount     Int
+  importedCount Int
+  skippedCount  Int
+  createdAt     DateTime @default(now())
+}

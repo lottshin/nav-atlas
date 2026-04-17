@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NavHub · 现代导航站</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-icon">🧭</span>
+                <span class="logo-text">NavHub</span>
+            </div>
+            <div class="search-bar">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                <input type="text" id="searchInput" placeholder="搜索网站、工具、资源..." autocomplete="off" />
+                <kbd class="search-shortcut">/</kbd>
+            </div>
+            <div class="header-actions">
+                <button id="themeToggle" class="icon-btn" title="切换主题">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button id="addLinkBtn" class="btn-primary">+ 添加</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+        <!-- Sidebar categories -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="category-nav">
+                <h3 class="sidebar-title">分类</h3>
+                <ul id="categoryList">
+                    <li class="active" data-category="all">
+                        <span class="cat-icon">📋</span> 全部
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Content -->
+        <section class="content">
+            <div class="content-header">
+                <h2 id="currentCategory">全部网站</h2>
+                <span class="link-count" id="linkCount">0 个网站</span>
+            </div>
+            <div class="grid" id="linkGrid">
+                <!-- Cards rendered by JS -->
+            </div>
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <span class="empty-icon">🔍</span>
+                <p>没有找到匹配的结果</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Link Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>添加新网站</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <form id="addLinkForm" class="modal-form">
+                <div class="form-group">
+                    <label>网站名称 *</label>
+                    <input type="text" name="title" required placeholder="例如：GitHub" />
+                </div>
+                <div class="form-group">
+                    <label>网站地址 *</label>
+                    <input type="url" name="url" required placeholder="https://..." />
+                </div>
+                <div class="form-group">
+                    <label>简介</label>
+                    <input type="text" name="description" placeholder="一句话描述" />
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>分类 *</label>
+                        <input type="text" name="category" required placeholder="例如：开发工具" />
+                    </div>
+                    <div class="form-group">
+                        <label>图标 Emoji</label>
+                        <input type="text" name="icon" placeholder="🔗" maxlength="2" />
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary btn-full">确认添加</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

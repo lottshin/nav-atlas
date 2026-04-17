@@ -1,0 +1,94 @@
+{
+    "links": [
+      {
+        "id": "1",
+        "title": "Google",
+        "url": "https://www.google.com",
+        "description": "全球最大的搜索引擎",
+        "category": "搜索引擎",
+        "icon": "🔍",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "2",
+        "title": "GitHub",
+        "url": "https://github.com",
+        "description": "全球最大的代码托管平台",
+        "category": "开发工具",
+        "icon": "💻",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "3",
+        "title": "Stack Overflow",
+        "url": "https://stackoverflow.com",
+        "description": "程序员问答社区",
+        "category": "开发工具",
+        "icon": "📚",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "4",
+        "title": "Figma",
+        "url": "https://www.figma.com",
+        "description": "在线UI设计协作工具",
+        "category": "设计工具",
+        "icon": "🎨",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "5",
+        "title": "Notion",
+        "url": "https://www.notion.so",
+        "description": "All-in-one 生产力工具",
+        "category": "效率工具",
+        "icon": "📝",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "6",
+        "title": "ChatGPT",
+        "url": "https://chat.openai.com",
+        "description": "OpenAI 推出的 AI 对话助手",
+        "category": "AI 工具",
+        "icon": "🤖",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "7",
+        "title": "MDN Web Docs",
+        "url": "https://developer.mozilla.org",
+        "description": "Web 技术权威文档",
+        "category": "开发工具",
+        "icon": "📖",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "8",
+        "title": "Dribbble",
+        "url": "https://dribbble.com",
+        "description": "设计师灵感社区",
+        "category": "设计工具",
+        "icon": "🏀",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "9",
+        "title": "Bing",
+        "url": "https://www.bing.com",
+        "description": "微软搜索引擎",
+        "category": "搜索引擎",
+        "icon": "🔎",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "10",
+        "title": "Vercel",
+        "url": "https://vercel.com",
+        "description": "前端部署与托管平台",
+        "category": "开发工具",
+        "icon": "▲",
+        "createdAt": "2026-01-01T00:00:00.000Z"
+      }
+    ]
+  }

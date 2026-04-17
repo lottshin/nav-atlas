@@ -1,0 +1,12 @@
+services:
+  nav-website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - ../shared/env/production.env
+    volumes:
+      - ../shared/data:/app/data
