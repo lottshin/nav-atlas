@@ -138,6 +138,30 @@ The current repository already includes a first-stage deployment path:
 
 - [DEPLOY.md](./DEPLOY.md)
 
+### GHCR 镜像部署 | GHCR Image Deployment
+
+如果你更希望直接拉取镜像部署，而不是源码构建，可以使用 GitHub Container Registry（GHCR）：
+
+If you prefer image-based deployment instead of building from source, use GitHub Container Registry (GHCR):
+
+- 镜像地址 / Image name：`ghcr.io/lottshin/nav-atlas`
+- 默认标签 / Default tag：`latest`
+- `latest` 跟随 `main` 分支的最新构建
+- 固定版本来自 Git tag，例如 `v1.2.0`，发布后可使用对应的版本镜像标签
+- 适合 1Panel、Docker Compose、`docker pull` 等直接拉取使用场景
+
+示例 / Example:
+
+```bash
+docker pull ghcr.io/lottshin/nav-atlas:latest
+```
+
+说明 / Note:
+
+- 如果你是首次发布，可能需要到 GitHub Packages / GHCR 页面检查该包，并将可见性设置为 Public，才能方便 1Panel 或匿名 `docker pull`
+- `latest` 适合滚动更新；如果你需要固定部署，请优先使用由 Git tag 生成的版本镜像标签
+- 源码部署仍然保留，详情请继续参考 [DEPLOY.md](./DEPLOY.md)
+
 ---
 
 ## 项目结构 | Project structure
