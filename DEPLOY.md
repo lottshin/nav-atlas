@@ -1,5 +1,48 @@
 # nav-website Docker 部署说明
 
+## 镜像部署路径（推荐）
+
+优先使用 GHCR 镜像部署：
+
+```text
+ghcr.io/lottshin/nav-atlas:latest
+```
+
+这条路径适合 1Panel 和普通 Docker 服务器，部署时只需要拉取镜像并按运行时契约配置即可：
+
+- **必须挂载** `/app/data` 到宿主机持久化目录
+- **必须注入** 生产环境变量文件/环境变量
+- **必须保持** `NAV_STORAGE_MODE="file"`，并且只允许**单实例**
+- **必须保持** 宿主机 Nginx / 1Panel 反代模型，由外层代理负责 TLS 和公网入口
+
+建议的镜像部署步骤：
+
+1. 先拉取镜像：
+
+   ```bash
+   docker pull ghcr.io/lottshin/nav-atlas:latest
+   ```
+
+2. 创建宿主机持久化目录，并把数据挂载到容器的 `/app/data`
+3. 注入生产环境变量，确保敏感信息来自宿主机的生产配置，不要写进镜像
+4. 由 Nginx 或 1Panel 反向代理到容器监听端口
+
+如果你使用 1Panel，镜像地址就填：
+
+```text
+ghcr.io/lottshin/nav-atlas:latest
+```
+
+首次发布后请额外检查 GHCR：
+
+- package 是否已经出现在 GHCR 中
+- package 是否正确关联到仓库 `lottshin/nav-atlas`
+- 如果需要匿名拉取，请把 package 设为 **public**
+
+## 源码部署路径（fallback / 高级路径）
+
+以下内容保留为**fallback / 高级路径**：当镜像部署暂时不可用、或者你需要在服务器上直接从源码构建时，继续使用原有的 source clone + `docker compose build` / `docker compose up -d --build` 方案。
+
 本文档只覆盖**第一阶段**的生产部署方式：
 
 - 代码由 GitHub 管理
