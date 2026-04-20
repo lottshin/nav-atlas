@@ -124,6 +124,20 @@ Use GitHub Actions to publish images when:
 2. a Git tag like `v1.2.0` is pushed
 3. a manual workflow dispatch is triggered from GitHub Actions UI
 
+### Manual dispatch semantics
+
+`workflow_dispatch` is included only as a maintenance/recovery trigger, not as a separate custom release system.
+
+Its behavior should mirror the ref selected in the GitHub Actions UI:
+
+- if the selected ref is `main`, publish the same tag set as normal `main` pushes:
+  - `latest`
+  - `sha-<shortsha>`
+- if the selected ref is a Git tag matching `v*`, publish the same semver tags as normal tag pushes
+- do **not** support arbitrary custom tag input in the first pass
+
+This keeps the workflow easy to understand and avoids inventing a parallel manual release protocol.
+
 ### Tag Strategy
 
 To balance simplicity and correctness, use this tag model:
@@ -224,6 +238,8 @@ This is the main practical benefit of the change.
 
 GHCR packages can require a visibility check after first publish. The documentation should explicitly tell the operator to inspect the package page under the repository/account and ensure the image is public if public anonymous pulls are desired.
 
+For this rollout, the intended deployment UX is **public anonymous pull** for the default image path used by 1Panel and standard Docker pulls. In other words, a successful rollout is not merely “image published”, but “image published and publicly pullable as `ghcr.io/lottshin/nav-atlas:latest`”.
+
 ---
 
 ## Documentation Design
@@ -249,6 +265,8 @@ This prevents the docs from implying that cloning the repo is the only option.
 ### Versioning note
 
 Because this is a new deployment capability, the project version should bump from `1.1.0` to `1.2.0`.
+
+This version bump does **not** automatically imply that a `v1.2.0` Git tag will be created as part of this rollout. Until a version tag is explicitly pushed, the guaranteed published tags are `latest` and `sha-*` from `main`.
 
 ---
 
@@ -291,6 +309,8 @@ After pushing to GitHub, confirm in GitHub Actions and GHCR that:
 - `latest` is published
 - the package is visible
 - the published package is linked to the repository
+- the package is public if direct 1Panel / anonymous Docker pull is the target deployment path
+- an unauthenticated pull of `ghcr.io/lottshin/nav-atlas:latest` succeeds once visibility is configured
 
 If the user later creates a Git tag like `v1.2.0`, confirm that the version tags appear as expected.
 
