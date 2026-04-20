@@ -147,13 +147,14 @@ If you prefer image-based deployment instead of building from source, use GitHub
 - 镜像地址 / Image name：`ghcr.io/lottshin/nav-atlas`
 - 默认标签 / Default tag：`latest`
 - `latest` 跟随 `main` 分支的最新构建
-- 固定版本来自 Git tag，例如 `v1.2.0`，发布后可使用对应的版本镜像标签
+- 固定版本来自 Git tag，例如 `v1.2.0`；发布后镜像标签不带 `v`，例如 `1.2.0`、`1.2`、`1`
 - 适合 1Panel、Docker Compose、`docker pull` 等直接拉取使用场景
 
 示例 / Example:
 
 ```bash
 docker pull ghcr.io/lottshin/nav-atlas:latest
+docker pull ghcr.io/lottshin/nav-atlas:1.2.0
 ```
 
 说明 / Note:

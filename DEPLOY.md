@@ -8,6 +8,12 @@
 ghcr.io/lottshin/nav-atlas:latest
 ```
 
+如果你用 Git tag 发布固定版本，例如 `v1.2.0`，镜像标签是不带 `v` 的：
+
+```text
+ghcr.io/lottshin/nav-atlas:1.2.0
+```
+
 这条路径适合 1Panel 和普通 Docker 服务器，部署时只需要拉取镜像并按运行时契约配置即可：
 
 - **必须挂载** `/app/data` 到宿主机持久化目录
