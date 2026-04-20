@@ -122,18 +122,19 @@ Use GitHub Actions to publish images when:
 
 1. code is pushed to the default branch `main`
 2. a Git tag like `v1.2.0` is pushed
-3. a manual workflow dispatch is triggered from GitHub Actions UI
+3. a manual workflow dispatch is triggered from GitHub Actions UI for `main` maintenance republish only
 
 ### Manual dispatch semantics
 
 `workflow_dispatch` is included only as a maintenance/recovery trigger, not as a separate custom release system.
 
-Its behavior should mirror the ref selected in the GitHub Actions UI:
+In the first pass, its behavior is intentionally narrow:
 
-- if the selected ref is `main`, publish the same tag set as normal `main` pushes:
+- manual dispatch is for the `main` branch only
+- it republishes the same tag set as a normal `main` push:
   - `latest`
   - `sha-<shortsha>`
-- if the selected ref is a Git tag matching `v*`, publish the same semver tags as normal tag pushes
+- semver publishing remains tied to real Git tag pushes such as `v1.2.0`
 - do **not** support arbitrary custom tag input in the first pass
 
 This keeps the workflow easy to understand and avoids inventing a parallel manual release protocol.
@@ -240,6 +241,24 @@ GHCR packages can require a visibility check after first publish. The documentat
 
 For this rollout, the intended deployment UX is **public anonymous pull** for the default image path used by 1Panel and standard Docker pulls. In other words, a successful rollout is not merely “image published”, but “image published and publicly pullable as `ghcr.io/lottshin/nav-atlas:latest`”.
 
+### Runtime contract remains unchanged
+
+Image-based deployment must keep the same runtime contract as the current source-based Docker deployment.
+
+That means the published image still expects:
+
+- persistent writable data mounted to `/app/data`
+- runtime environment variables injected at container start, not baked into the image
+- the same file-mode single-instance limitation
+- the same reverse-proxy model for public traffic unless the operator intentionally chooses direct port exposure
+
+For the documented default server path, this still means:
+
+- app listens on container port `3000`
+- server-side env is provided from the production env file
+- public access goes through Nginx or 1Panel reverse proxy
+- persistent host storage is mounted into `/app/data`
+
 ---
 
 ## Documentation Design
@@ -260,7 +279,7 @@ README should gain a concise GitHub-facing section that answers:
 1. **Image deployment path** (recommended for servers/1Panel once GHCR image exists)
 2. **Source build path** (existing fallback path)
 
-This prevents the docs from implying that cloning the repo is the only option.
+This prevents the docs from implying that cloning the repo is the only option, while still preserving the same runtime requirements around env injection, `/app/data` persistence, and reverse-proxy exposure.
 
 ### Versioning note
 
